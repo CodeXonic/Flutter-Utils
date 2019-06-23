@@ -33,17 +33,7 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Utils App"),
-      ),
-      body: new TabBarView(
-        children: <Widget>[
-          new NewPage("First"),
-          new NewPage("Second"),
-        ],
-        controller: controller,
-      ),
-      bottomNavigationBar: new Material(
-        color: Colors.teal,
-        child: new TabBar(
+        bottom: new TabBar(
           controller: controller,
           tabs: <Widget>[
             new Tab(
@@ -55,6 +45,14 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       ),
+      body: new TabBarView(
+        children: <Widget>[
+          new NewPage("First"),
+          new NewPage("Second"),
+        ],
+        controller: controller,
+  
+       
     );
   }
 }
