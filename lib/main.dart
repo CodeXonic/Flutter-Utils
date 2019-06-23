@@ -14,6 +14,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
+  GlobalKey<ScaffoldState> scaffoldState;
   TabController controller;
 
   @override
@@ -31,6 +32,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldState,
       appBar: new AppBar(
         title: new Text("Utils App"),
         bottom: new TabBar(
@@ -39,7 +41,7 @@ class _HomePageState extends State<HomePage>
             new Tab(
               icon: new Icon(Icons.home),
             ),
-             new Tab(
+            new Tab(
               icon: new Icon(Icons.dashboard),
             ),
           ],
@@ -51,8 +53,17 @@ class _HomePageState extends State<HomePage>
           new NewPage("Second"),
         ],
         controller: controller,
-  
-       
+      ),
+      floatingActionButton:  new Builder(builder: (BuildContext context) {
+        return new FloatingActionButton(
+          child: new Icon(Icons.add),
+          backgroundColor: Colors.teal,
+          onPressed: () {
+          Scaffold
+              .of(context)
+              .showSnackBar(new SnackBar(content: new Text('FAB clicked!'),duration: new Duration(seconds: 2),));
+        }); 
+      },),
     );
   }
 }
@@ -70,3 +81,19 @@ class NewPage extends StatelessWidget {
     );
   }
 }
+
+
+void showSnackBar(BuildContext context) {
+	var snackBar = SnackBar(
+		content: Text("You just tapped "),
+		action: SnackBarAction(
+				label: "UNDO",
+				onPressed: () {
+					debugPrint('Performing dummy UNDO operation');
+				}
+		),
+	);
+
+	Scaffold.of(context).showSnackBar(snackBar);
+}
+
