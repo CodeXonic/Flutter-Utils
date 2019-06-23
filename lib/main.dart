@@ -12,42 +12,63 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-int current_step = 0;
-  List<Step> mySteps = [
-            new Step(
-              title: new Text("Step 1"),
-              content: new Text("some Content 1"),
-              isActive: true,
-            ),
-              new Step(
-              title: new Text("Step 2"),
-              content: new Text("some Content 2"),
-              isActive: true,
-            ),
-              new Step(
-              title: new Text("Step 3"),
-              content: new Text("some Content 3"),
-              isActive: true,
-            ),
-          ];
-@override
+class _HomePageState extends State<HomePage>
+    with SingleTickerProviderStateMixin {
+  TabController controller;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = new TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: new AppBar(
         title: new Text("Utils App"),
       ),
-      body: new Container(
-        child: new Stepper(
-          steps: mySteps,
-          currentStep: this.current_step,
-          type: StepperType.vertical,
-        
+      body: new TabBarView(
+        children: <Widget>[
+          new NewPage("First"),
+          new NewPage("Second"),
+        ],
+        controller: controller,
+      ),
+      bottomNavigationBar: new Material(
+        color: Colors.teal,
+        child: new TabBar(
+          controller: controller,
+          tabs: <Widget>[
+            new Tab(
+              icon: new Icon(Icons.home),
+            ),
+             new Tab(
+              icon: new Icon(Icons.dashboard),
+            ),
+          ],
         ),
-        
-      )
+      ),
     );
   }
 }
 
+class NewPage extends StatelessWidget {
+  final String title;
+  NewPage(this.title);
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: new Center(
+        child: new Text(title),
+      ),
+    );
+  }
+}
